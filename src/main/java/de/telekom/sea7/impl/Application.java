@@ -6,6 +6,6 @@ import java.sql.SQLException;
 public interface Application {
 
 	void run();
-	Connection getConnection() throws SQLException;
+	Connection getConnection();
 
 }
