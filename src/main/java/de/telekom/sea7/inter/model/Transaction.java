@@ -1,25 +1,22 @@
 package de.telekom.sea7.inter.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface Transaction {
 
+	int getId();
+	
 	float getAmount();
 
 	void setAmount(float amount);
 
-	String getReceiver();
+	Receiver getReceiver();
 
-	void setReceiver(String receiver);
+	void setReceiver(Receiver receiver);
 
-	String getIban();
+	Iban getIban();
 
-	void setIban(String iban);
-
-	String getBic();
-
-	void setBic(String bic);
+	void setIban(Iban iban);
 
 	String getPurpose();
 
@@ -28,6 +25,5 @@ public interface Transaction {
 	LocalDateTime getDate();
 
 	void setDate(LocalDateTime date);
-	
-	List<String> getValues();
+
 }

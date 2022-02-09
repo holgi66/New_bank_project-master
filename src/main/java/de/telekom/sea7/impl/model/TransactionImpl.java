@@ -1,30 +1,36 @@
 package de.telekom.sea7.impl.model;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.telekom.sea7.impl.BaseObjectImpl;
+import de.telekom.sea7.inter.model.Iban;
+import de.telekom.sea7.inter.model.Receiver;
 import de.telekom.sea7.inter.model.Transaction;
 
-public class TransactionImpl extends BaseObjectImpl implements Transaction {
+
+public class TransactionImpl extends BaseObjectImpl implements Transaction  {
 	
 	private float amount;
-	private String receiver; 
-	private String iban;
+	private int id;
+	private Receiver receiver; 
+	private Iban iban;
 	private String bic;
 	private String purpose;
 	private LocalDateTime date;
 	
-	public TransactionImpl(Object parent, float amount, String receiver, String iban, String bic, String purpose, LocalDateTime date) {
+	public TransactionImpl(Object parent, int id, float amount, Receiver receiver, Iban iban, String purpose, LocalDateTime date) {
 		super(parent);
+		this.id = id;
 		this.amount = amount;
 		this.receiver = receiver;
 		this.iban = iban;
-		this.bic = bic;
 		this.purpose = purpose;
 		this.date = date;
+	}
+
+	@Override
+	public int getId() {
+		return id;
 	}
 
 	@Override
@@ -38,33 +44,23 @@ public class TransactionImpl extends BaseObjectImpl implements Transaction {
 	}
 
 	@Override
-	public String getReceiver() {
+	public Receiver getReceiver() {
 		return receiver;
 	}
 
 	@Override
-	public void setReceiver(String receiver) {
+	public void setReceiver(Receiver receiver) {
 		this.receiver = receiver;
 	}
 
 	@Override
-	public String getIban() {
+	public Iban getIban() {
 		return iban;
 	}
 
 	@Override
-	public void setIban(String iban) {
+	public void setIban(Iban iban) {
 		this.iban = iban;
-	}
-
-	@Override
-	public String getBic() {
-		return bic;
-	}
-
-	@Override
-	public void setBic(String bic) {
-		this.bic = bic;
 	}
 
 	@Override
@@ -87,6 +83,7 @@ public class TransactionImpl extends BaseObjectImpl implements Transaction {
 		this.date = date;
 	}
 	
+	/*
 	@Override
 	public List<String> getValues() {
 		List<String> values = new ArrayList<String>();
@@ -115,4 +112,5 @@ public class TransactionImpl extends BaseObjectImpl implements Transaction {
 		
 		return values;
 	}
+	*/
 }
