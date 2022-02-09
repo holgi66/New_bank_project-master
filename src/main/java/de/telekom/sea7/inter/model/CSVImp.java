@@ -1,4 +1,4 @@
-package de.telekom.sea7.impl.model;
+package de.telekom.sea7.inter.model;
 
 import java.util.HashMap;
 import java.util.Iterator;

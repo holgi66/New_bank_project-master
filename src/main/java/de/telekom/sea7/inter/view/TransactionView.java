@@ -4,10 +4,9 @@ public interface TransactionView {
 
 	void menu();
 
-	void editMenu();
-
 	void show();
 
+	/*
 	void setReceiver();
 
 	void setIban();
@@ -18,4 +17,6 @@ public interface TransactionView {
 
 	void setAmount();
 
+	void editMenu();
+	*/
 }

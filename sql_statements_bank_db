@@ -1,0 +1,4 @@
+create view showTransactions as select r.name, i.iban, b.bic, b.institute, t.amount, t.purpose, t.date from transactions t left join receiver r on t.receiver_ID = r.ID left join iban i on t.iban_ID = i.ID left join bic b on i.bic_ID = b.ID order by t.date asc; 
+select * from showTransactions;
+create view balance as select sum(amount) from transactions;
+select * from balance;

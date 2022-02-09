@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 import java.util.Properties;
 import java.util.Scanner;
 
-import de.telekom.sea7.impl.model.GenericListImpl;
+import de.telekom.sea7.impl.model.RepositoryTransactionImpl;
 import de.telekom.sea7.impl.model.TransactionImpl;
-import de.telekom.sea7.impl.view.TransactionListViewImpl;
-import de.telekom.sea7.inter.model.GenericList;
+import de.telekom.sea7.impl.view.RepositoryTransactionViewImpl;
+import de.telekom.sea7.inter.model.Repository;
 import de.telekom.sea7.inter.model.Transaction;
-import de.telekom.sea7.inter.view.TransactionListView;
+import de.telekom.sea7.inter.view.RepositoryTransactionView;
 
 public class ApplicationImpl extends BaseObjectImpl implements Application {
 	private static ApplicationImpl applicationImpl;
@@ -35,7 +35,8 @@ public class ApplicationImpl extends BaseObjectImpl implements Application {
 		try {
 			initConnection();
 			try (Scanner scanner = new Scanner(System.in)) {
-				TransactionListView transactionListView = new TransactionListViewImpl(this, scanner, transactionList);
+				Repository<Transaction> transactionRepo = new RepositoryTransactionImpl(this);
+				RepositoryTransactionView transactionListView = new RepositoryTransactionViewImpl(this, scanner, transactionRepo);
 				transactionListView.menu();
 			}
 			connection.close();
