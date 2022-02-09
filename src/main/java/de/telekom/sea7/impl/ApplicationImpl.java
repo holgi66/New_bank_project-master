@@ -25,17 +25,19 @@ public class ApplicationImpl extends BaseObjectImpl implements Application {
 	public static ApplicationImpl getApplication() {
 		return applicationImpl;
 	}
+	
+	public Connection getConnection() {
+		return connection;
+	}
 
 	@Override
 	public void run() {
 		try {
-			getConnection();
-
+			initConnection();
 			try (Scanner scanner = new Scanner(System.in)) {
 				TransactionListView transactionListView = new TransactionListViewImpl(this, scanner, transactionList);
 				transactionListView.menu();
 			}
-
 			connection.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -43,13 +45,11 @@ public class ApplicationImpl extends BaseObjectImpl implements Application {
 
 	}
 
-	public void getConnection() throws SQLException {
-
+	public void initConnection() throws SQLException {
 		Properties connectionProps = new Properties();
 		connectionProps.put("user", "admin");
 		connectionProps.put("password", "toll");
 		connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/bank", connectionProps);
 		System.out.println("Connected to database");
-
 	}
 }

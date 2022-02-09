@@ -12,6 +12,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+import de.telekom.sea7.inter.model.CSVImp;
+
 public class CSVImpImpl implements Iterable<Map<String, String>>, CSVImp{
 
 	private String fileName;

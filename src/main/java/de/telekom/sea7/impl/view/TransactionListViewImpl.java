@@ -13,9 +13,9 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import de.telekom.sea7.impl.BaseObjectImpl;
-import de.telekom.sea7.impl.model.CSVImp;
 import de.telekom.sea7.impl.model.CSVImpImpl;
 import de.telekom.sea7.impl.model.TransactionImpl;
+import de.telekom.sea7.inter.model.CSVImp;
 import de.telekom.sea7.inter.model.GenericList;
 import de.telekom.sea7.inter.model.Transaction;
 import de.telekom.sea7.inter.view.TransactionListView;
