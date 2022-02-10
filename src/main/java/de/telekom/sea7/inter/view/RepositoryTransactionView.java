@@ -2,7 +2,7 @@ package de.telekom.sea7.inter.view;
 
 public interface RepositoryTransactionView {
 
-	//void add();
+	void add();
 
 	void remove();
 

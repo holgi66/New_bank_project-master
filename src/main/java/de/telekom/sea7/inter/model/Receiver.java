@@ -3,6 +3,8 @@ package de.telekom.sea7.inter.model;
 public interface Receiver {
 
 	int getId();
+	
+	void setId(int id);
 
 	String getCountry();
 

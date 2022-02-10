@@ -15,9 +15,15 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import de.telekom.sea7.impl.BaseObjectImpl;
+import de.telekom.sea7.impl.model.BicImpl;
 import de.telekom.sea7.impl.model.CSVImpImpl;
+import de.telekom.sea7.impl.model.IbanImpl;
+import de.telekom.sea7.impl.model.ReceiverImpl;
 import de.telekom.sea7.impl.model.TransactionImpl;
+import de.telekom.sea7.inter.model.Bic;
 import de.telekom.sea7.inter.model.CSVImp;
+import de.telekom.sea7.inter.model.Iban;
+import de.telekom.sea7.inter.model.Receiver;
 import de.telekom.sea7.inter.model.Repository;
 import de.telekom.sea7.inter.model.Transaction;
 import de.telekom.sea7.inter.view.RepositoryTransactionView;
@@ -39,7 +45,7 @@ public class RepositoryTransactionViewImpl extends BaseObjectImpl implements Rep
 	public void menu() {
 		String input = "";
 		while (!input.equals("exit")) {
-			System.out.println("Enter show, showAll, remove or exit to navigate.");
+			System.out.println("Enter show, showAll, remove, add or exit to navigate.");
 			System.out.println("Enter something:");
 			input = this.scanner.next();
 			this.scanner.nextLine();
@@ -53,9 +59,9 @@ public class RepositoryTransactionViewImpl extends BaseObjectImpl implements Rep
 //				case "balance":
 //					getBalance();
 //					break;
-//				case "add":
-//					add();
-//					break;
+				case "add":
+					add();
+					break;
 				case "remove":
 					remove();
 					break;
@@ -120,32 +126,53 @@ public class RepositoryTransactionViewImpl extends BaseObjectImpl implements Rep
 		}
 	}
 	
-//	@Override
-//	public void add() {
-//		System.out.println("Enter receiver: ");
-//		String receiver = this.scanner.nextLine();
+	@Override
+	public void add() {
+		System.out.println("Enter receiver name: ");
+		String name = this.scanner.nextLine();
+		
+//		System.out.println("Enter receiver country: ");
+//		String country = this.scanner.nextLine();
 //		
-//		System.out.println("Enter IBAN: ");
-//		String iban = this.scanner.nextLine();
+//		System.out.println("Enter receiver city: ");
+//		String city = this.scanner.nextLine();
 //		
-//		System.out.println("Enter BIC: ");
-//		String bic = this.scanner.nextLine();
-//		
-//		System.out.println("Enter purpose: ");
-//		String purpose = this.scanner.nextLine();
-//		
-//		System.out.println("Enter amount: ");
-//		while(!this.scanner.hasNextFloat()) {
-//			System.out.println("Your entered value");
-//			this.scanner.next();
-//		}
-//		Float amount = this.scanner.nextFloat();
+//		System.out.println("Enter receiver zipcode: ");
+//		int zipcode = this.scanner.nextInt();
 //		this.scanner.nextLine();
 //		
-//		LocalDateTime date = LocalDateTime.now();
-//		Transaction transaction = new TransactionImpl(this, amount, receiver, iban, bic, purpose, date);
-//		transactionList.add(transaction);
-//	}
+//		System.out.println("Enter receiver street: ");
+//		String street = this.scanner.nextLine();
+		
+		System.out.println("Enter IBAN: ");
+		String iban = this.scanner.nextLine();
+		
+		System.out.println("Enter BIC: ");
+		String bic = this.scanner.nextLine();
+		
+		System.out.println("Enter institute: ");
+		String institute = this.scanner.nextLine();
+		
+		System.out.println("Enter purpose: ");
+		String purpose = this.scanner.nextLine();
+		
+		System.out.println("Enter amount: ");
+		while(!this.scanner.hasNextFloat()) {
+			System.out.println("Your entered value");
+			this.scanner.next();
+		}
+		Float amount = this.scanner.nextFloat();
+		this.scanner.nextLine();
+		
+		LocalDateTime date = LocalDateTime.now();
+		
+		Bic bicObject = new BicImpl(this, bic, institute);
+		Iban ibanObject = new IbanImpl(this, iban, bicObject);
+		Receiver receiverObject = new ReceiverImpl(this, name);
+		Transaction transaction = new TransactionImpl(this, amount, receiverObject, ibanObject, purpose, date);
+		
+		transactionRepo.add(transaction);
+	}
 
 	
 	

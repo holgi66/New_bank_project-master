@@ -14,13 +14,11 @@ public class TransactionImpl extends BaseObjectImpl implements Transaction  {
 	private int id;
 	private Receiver receiver; 
 	private Iban iban;
-	private String bic;
 	private String purpose;
 	private LocalDateTime date;
 	
-	public TransactionImpl(Object parent, int id, float amount, Receiver receiver, Iban iban, String purpose, LocalDateTime date) {
+	public TransactionImpl(Object parent, float amount, Receiver receiver, Iban iban, String purpose, LocalDateTime date) {
 		super(parent);
-		this.id = id;
 		this.amount = amount;
 		this.receiver = receiver;
 		this.iban = iban;
@@ -31,6 +29,11 @@ public class TransactionImpl extends BaseObjectImpl implements Transaction  {
 	@Override
 	public int getId() {
 		return id;
+	}
+	
+	@Override
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	@Override
