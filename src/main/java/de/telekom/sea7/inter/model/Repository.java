@@ -10,6 +10,8 @@ public interface Repository<T> {
 	T get(int index) throws SQLException;
 
 	void add(T t);
+	
+	void update(T t);
 
 	void remove(int index);
 

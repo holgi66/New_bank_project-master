@@ -6,6 +6,8 @@ public interface Transaction {
 
 	int getId();
 	
+	void setId(int id);
+	
 	float getAmount();
 
 	void setAmount(float amount);

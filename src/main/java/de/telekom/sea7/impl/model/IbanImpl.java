@@ -1,22 +1,39 @@
 package de.telekom.sea7.impl.model;
 
 import de.telekom.sea7.impl.BaseObjectImpl;
+import de.telekom.sea7.inter.model.Bic;
 import de.telekom.sea7.inter.model.Iban;
 
 public class IbanImpl extends BaseObjectImpl implements Iban {
 	
 	private int id;
 	private String iban;
+	private Bic bic;
 	
-	public IbanImpl(Object parent, int id, String iban) {
+	public IbanImpl(Object parent, String iban, Bic bic) {
 		super(parent);
-		this.id = id;
 		this.iban = iban;
+		this.bic = bic;
 	}
 
 	@Override
 	public int getId() {
 		return id;
+	}
+	
+	@Override
+	public Bic getBic() {
+		return bic;
+	}
+
+	@Override
+	public void setBic(Bic bic) {
+		this.bic = bic;
+	}
+
+	@Override 
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	@Override
