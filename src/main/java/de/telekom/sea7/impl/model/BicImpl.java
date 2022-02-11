@@ -1,5 +1,6 @@
 package de.telekom.sea7.impl.model;
 
+
 import de.telekom.sea7.impl.BaseObjectImpl;
 import de.telekom.sea7.inter.model.Bic;
 
