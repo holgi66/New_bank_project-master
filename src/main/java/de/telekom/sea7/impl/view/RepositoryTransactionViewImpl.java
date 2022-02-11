@@ -19,6 +19,9 @@ import de.telekom.sea7.impl.model.BicImpl;
 import de.telekom.sea7.impl.model.CSVImpImpl;
 import de.telekom.sea7.impl.model.IbanImpl;
 import de.telekom.sea7.impl.model.ReceiverImpl;
+import de.telekom.sea7.impl.model.RepositoryBicImpl;
+import de.telekom.sea7.impl.model.RepositoryIbanImpl;
+import de.telekom.sea7.impl.model.RepositoryReceiverImpl;
 import de.telekom.sea7.impl.model.TransactionImpl;
 import de.telekom.sea7.inter.model.Bic;
 import de.telekom.sea7.inter.model.CSVImp;
@@ -30,17 +33,17 @@ import de.telekom.sea7.inter.view.RepositoryTransactionView;
 import de.telekom.sea7.inter.view.TransactionView;
 
 public class RepositoryTransactionViewImpl extends BaseObjectImpl implements RepositoryTransactionView {
-	
+
 	private Repository<Transaction> transactionRepo;
 	private Scanner scanner;
-	
+
 	public RepositoryTransactionViewImpl(Object parent, Scanner scanner, Repository<Transaction> transactionRepo) {
 		super(parent);
 		this.transactionRepo = transactionRepo;
 		this.scanner = scanner;
 	}
-	
-	//menu
+
+	// menu
 	@Override
 	public void menu() {
 		String input = "";
@@ -50,21 +53,24 @@ public class RepositoryTransactionViewImpl extends BaseObjectImpl implements Rep
 			input = this.scanner.next();
 			this.scanner.nextLine();
 			switch (input) {
-				case "show":
-					show();
-					break;
-				case "showAll":
-					showAll();
-					break;
+			case "show":
+				show();
+				break;
+			case "showAll":
+				showAll();
+				break;
 //				case "balance":
 //					getBalance();
 //					break;
-				case "add":
-					add();
-					break;
-				case "remove":
-					remove();
-					break;
+			case "add":
+				add();
+				break;
+			case "remove":
+				remove();
+				break;
+			case "update":
+				update();
+				break;
 //				case "export":
 //					exportCsv();
 //					break;
@@ -74,23 +80,76 @@ public class RepositoryTransactionViewImpl extends BaseObjectImpl implements Rep
 //				case "search":
 //					search();
 //					break;
-				case "exit":
-					break;
-				default:
-					System.out.println("Command unknown");
+			case "exit":
+				break;
+			default:
+				System.out.println("Command unknown");
 			}
 		}
 	}
-	
+
+	public void update() {
+		System.out.println("Enter position number of transaction you want to update: ");
+		int id = this.scanner.nextInt();
+		this.scanner.nextLine();
+
+		System.out.println("Enter receiver name: ");
+		String name = this.scanner.nextLine();
+
+		System.out.println("Enter IBAN: ");
+		String iban = this.scanner.nextLine();
+
+		System.out.println("Enter BIC: ");
+		String bic = this.scanner.nextLine();
+
+		System.out.println("Enter institute: ");
+		String institute = this.scanner.nextLine();
+
+		System.out.println("Enter purpose: ");
+		String purpose = this.scanner.nextLine();
+
+		System.out.println("Enter amount: ");
+		while (!this.scanner.hasNextFloat()) {
+			System.out.println("Your entered value");
+			this.scanner.next();
+		}
+		Float amount = this.scanner.nextFloat();
+		this.scanner.nextLine();
+
+		try {
+			Transaction transaction = transactionRepo.get(id);
+			transaction.setAmount(amount);
+			transaction.setPurpose(purpose);
+
+			Repository<Receiver> receiverRepo = new RepositoryReceiverImpl(this);
+			Receiver receiverObject = receiverRepo.get(transaction.getReceiver().getId());
+			receiverObject.setName(name);
+
+			Repository<Iban> ibanRepo = new RepositoryIbanImpl(this);
+			Iban ibanObject = ibanRepo.get(transaction.getIban().getId());
+			ibanObject.setIban(iban);
+
+			Repository<Bic> bicRepo = new RepositoryBicImpl(this);
+			Bic bicObject = bicRepo.get(ibanObject.getBic().getId());
+			bicObject.setBic(bic);
+			bicObject.setInstitute(institute);
+			transactionRepo.update(transaction);
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
 	@Override
 	public void remove() {
 		System.out.println("Enter position number of transaction: ");
 		int index = this.scanner.nextInt();
-		
+
 		transactionRepo.remove(index);
 	}
-	
-	//show
+
+	// show
 	@Override
 	public void showAll() {
 		try {
@@ -104,33 +163,31 @@ public class RepositoryTransactionViewImpl extends BaseObjectImpl implements Rep
 				System.out.println("Date: " + transaction.getDate());
 				System.out.println();
 			}
-		} 
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	//showOne
+
+	// showOne
 	@Override
 	public void show() {
 		System.out.println("Enter position number of transaction: ");
 		int index = this.scanner.nextInt();
-		
+
 		try {
 			Transaction transaction = transactionRepo.get(index);
 			TransactionView transactionView = new TransactionViewImpl(this, this.scanner, transaction);
 			transactionView.menu();
-		} 
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	@Override
 	public void add() {
 		System.out.println("Enter receiver name: ");
 		String name = this.scanner.nextLine();
-		
+
 //		System.out.println("Enter receiver country: ");
 //		String country = this.scanner.nextLine();
 //		
@@ -143,39 +200,37 @@ public class RepositoryTransactionViewImpl extends BaseObjectImpl implements Rep
 //		
 //		System.out.println("Enter receiver street: ");
 //		String street = this.scanner.nextLine();
-		
+
 		System.out.println("Enter IBAN: ");
 		String iban = this.scanner.nextLine();
-		
+
 		System.out.println("Enter BIC: ");
 		String bic = this.scanner.nextLine();
-		
+
 		System.out.println("Enter institute: ");
 		String institute = this.scanner.nextLine();
-		
+
 		System.out.println("Enter purpose: ");
 		String purpose = this.scanner.nextLine();
-		
+
 		System.out.println("Enter amount: ");
-		while(!this.scanner.hasNextFloat()) {
+		while (!this.scanner.hasNextFloat()) {
 			System.out.println("Your entered value");
 			this.scanner.next();
 		}
 		Float amount = this.scanner.nextFloat();
 		this.scanner.nextLine();
-		
+
 		LocalDateTime date = LocalDateTime.now();
-		
+
 		Bic bicObject = new BicImpl(this, bic, institute);
 		Iban ibanObject = new IbanImpl(this, iban, bicObject);
 		Receiver receiverObject = new ReceiverImpl(this, name);
 		Transaction transaction = new TransactionImpl(this, amount, receiverObject, ibanObject, purpose, date);
-		
+
 		transactionRepo.add(transaction);
 	}
 
-	
-	
 //	public void getBalance() {
 //		float amount = 0.00f;
 //		for (Object o : transactionList) {
@@ -185,7 +240,7 @@ public class RepositoryTransactionViewImpl extends BaseObjectImpl implements Rep
 //		
 //		System.out.println("Your Balance is: " + String.format("%.2f", amount) + " €");
 //	}
-	
+
 //	public void exportCsv() {
 //		try {
 //			System.out.println("Enter Filename: ");
@@ -199,7 +254,7 @@ public class RepositoryTransactionViewImpl extends BaseObjectImpl implements Rep
 //			System.out.println(e.getMessage());
 //		}
 //	}
-	
+
 //	public void importCsv() {
 //		try {
 //			System.out.println("Enter Filename: ");
@@ -254,7 +309,7 @@ public class RepositoryTransactionViewImpl extends BaseObjectImpl implements Rep
 //			System.out.println(e.getMessage());
 //		}
 //	}
-	
+
 //	public void search() {
 //		System.out.println("Search: ");
 //		String search = this.scanner.nextLine();
