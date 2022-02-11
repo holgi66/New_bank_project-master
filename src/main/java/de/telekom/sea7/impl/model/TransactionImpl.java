@@ -2,19 +2,27 @@ package de.telekom.sea7.impl.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.*;
 import de.telekom.sea7.impl.BaseObjectImpl;
 import de.telekom.sea7.inter.model.Iban;
 import de.telekom.sea7.inter.model.Receiver;
 import de.telekom.sea7.inter.model.Transaction;
 
-
+@Entity
+@Table(name = "transactions")
 public class TransactionImpl extends BaseObjectImpl implements Transaction  {
 	
+	@Column
 	private float amount;
+	@Id
 	private int id;
+	@ManyToOne
 	private Receiver receiver; 
+	@ManyToOne
 	private Iban iban;
+	@Column
 	private String purpose;
+	@Column
 	private LocalDateTime date;
 	
 	public TransactionImpl(Object parent, float amount, Receiver receiver, Iban iban, String purpose, LocalDateTime date) {
